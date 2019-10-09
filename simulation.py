@@ -46,7 +46,6 @@ class Simulation(object):
         self.initial_infected = initial_infected  # Int
         self.total_infected = 0  # Int
         self.current_infected = 0  # Int
-        self.initial_vaccinated = initial_vaccinated
         self.vacc_percentage = vacc_percentage  # float between 0 and 1
         self.total_dead = 0  # Int
         self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
@@ -74,19 +73,40 @@ class Simulation(object):
         # the correct intial vaccination percentage and initial infected.
         pop = []
         person_id = 0
-        for count in range(self.initial_infected):
-            infected_person = Person(person_id, False, self.virus)
-            pop.append(infected_person)
-            person_id += 1
-        for count in range(self.initial_vaccinated):
-            vaccinated_person = Person(person_id, True)
-            pop.append(vaccinated_person)
-            person_id += 1
-        for count in self.population:
-            normal = Person(person_id)
-            pop.append(normal)
-            person_id += 1
-        return pop
+        infect_num = 0
+        vacc_num = 0
+
+        while len(popultation) != pop_size:
+
+            if self.initial_infected != infected:
+                population = Person(
+                    person_id, is_vaccinated=False, infection=virus)
+                infect_num += 1
+                person_id += 1
+            else:
+                if random.random() < self.vacc_percentage:
+                    population.append(Person(person_id, is_vaccinated=True))
+                    vacc_num += 1
+                    person_id += 1
+                else:
+                    population.append(Person(person_id, is_vaccinated=False))
+                    infect_num += 1
+                    person_id += 1
+        return population
+
+        # for count in range(self.initial_infected):
+        #     infected_person = Person(person_id, False, self.virus)
+        #     pop.append(infected_person)
+        #     person_id += 1
+        # for count in range(self.initial_vaccinated):
+        #     vaccinated_person = Person(person_id, True)
+        #     pop.append(vaccinated_person)
+        #     person_id += 1
+        # for count in self.population:
+        #     normal = Person(person_id)
+        #     pop.append(normal)
+        #     person_id += 1
+        # return pop
 
     def _simulation_should_continue(self):
         ''' The simulation should only end if the entire population is dead
