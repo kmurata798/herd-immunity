@@ -38,7 +38,7 @@ class Simulation(object):
         # TODO: Store each newly infected person's ID in newly_infected attribute.
         # At the end of each time step, call self._infect_newly_infected()
         # and then reset .newly_infected back to an empty list.
-        self.population = _create_population(
+        self.population = self._create_population(
             initial_infected)  # List of Person objects
         self.pop_size = pop_size  # Int
         self.next_person_id = 0  # Int
@@ -120,7 +120,6 @@ class Simulation(object):
             # round of this simulation.
             _create_population
         print(f'The simulation has ended after {time_step_counter} turns.')
-        p
 
     def time_step(self):
         ''' This method should contain all the logic for computing one time step
