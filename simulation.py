@@ -38,16 +38,17 @@ class Simulation(object):
         # TODO: Store each newly infected person's ID in newly_infected attribute.
         # At the end of each time step, call self._infect_newly_infected()
         # and then reset .newly_infected back to an empty list.
-        self.population = self._create_population(
-            initial_infected)  # List of Person objects
         self.pop_size = pop_size  # Int
-        self.next_person_id = 0  # Int
         self.virus = virus  # Virus object
         self.initial_infected = initial_infected  # Int
+        self.vacc_percentage = vacc_percentage  # float between 0 and 1
+        self.total_vaccinated = 0
+        self.next_person_id = 0  # Int
         self.total_infected = 0  # Int
         self.current_infected = 0  # Int
-        self.vacc_percentage = vacc_percentage  # float between 0 and 1
         self.total_dead = 0  # Int
+        self.population = self._create_population(
+            self.initial_infected)  # List of Person objects
         self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
             virus_name, pop_size, vacc_percentage, initial_infected)
         self.logger = Logger(self.file_name)
@@ -71,28 +72,20 @@ class Simulation(object):
 
         # Use the attributes created in the init method to create a population that has
         # the correct intial vaccination percentage and initial infected.
-        pop = []
-        person_id = 0
-        infect_num = 0
-        vacc_num = 0
 
-        while len(popultation) != pop_size:
-
-            if self.initial_infected != infected:
-                population = Person(
-                    person_id, is_vaccinated=False, infection=virus)
-                infect_num += 1
-                person_id += 1
+        popu = []
+        vacc_num = int(self.pop_size * self.vacc_percentage)
+        for person_count in range(self.pop_size):
+            if person_count < initial_infected:
+                popu.append(Person(person_count, False, self.virus))
+                self.total_infected += 1
+            elif person_count < initial_infected + vacc_num:
+                popu.append(Person(person_count, True))
+                self.total_vaccinated += 1
             else:
-                if random.random() < self.vacc_percentage:
-                    population.append(Person(person_id, is_vaccinated=True))
-                    vacc_num += 1
-                    person_id += 1
-                else:
-                    population.append(Person(person_id, is_vaccinated=False))
-                    infect_num += 1
-                    person_id += 1
-        return population
+                popu.append(Person(person_count, False))
+
+        return popu
 
         # for count in range(self.initial_infected):
         #     infected_person = Person(person_id, False, self.virus)
@@ -116,10 +109,20 @@ class Simulation(object):
                 bool: True for simulation should continue, False if it should end.
         '''
         # TODO: Complete this helper method.  Returns a Boolean.
-        if self.population == 0 or self.vacc_percentage == 100:
+        if len(self.get_infected()) == 0 or self.vacc_percentage == 100:
             return False
         else:
             return True
+
+    def get_infected(self):
+        infected_list = []
+        self.current_infected = 0
+        for person in self.population:
+            if person.infection != None and person.is_alive:
+                infected_list.append(person)
+                self.current_infected += 1
+
+        return infected_list
 
     def run(self):
         ''' This method should run the simulation until all requirements for ending
@@ -133,7 +136,7 @@ class Simulation(object):
         # HINT: You may want to call the logger's log_time_step() method at the end of each time step.
         # TODO: Set this variable using a helper
         time_step_counter = 0
-        should_continue = _simulation_should_continue()
+        should_continue = self._simulation_should_continue()
 
         while should_continue:
             # TODO: for every iteration of this loop, call self.time_step() to compute another
