@@ -46,6 +46,8 @@ class Simulation(object):
         self.next_person_id = 0  # Int
         self.total_infected = 0  # Int
         self.current_infected = 0  # Int
+        self.additional_deaths = 0
+        self.additional_vacc = 0
         self.total_dead = 0  # Int
         self.population = self._create_population(
             self.initial_infected)  # List of Person objects
@@ -136,16 +138,22 @@ class Simulation(object):
         # HINT: You may want to call the logger's log_time_step() method at the end of each time step.
         # TODO: Set this variable using a helper
         time_step_counter = 0
-        should_continue = self._simulation_should_continue()
+        should_continue = True
 
         while should_continue:
+            time_step_count += 1
+            self.time_step()
+            self.logger.log_time_step(time_step_count, self.current_infected,
+                                      self.additional_deaths, self.additional_vacc,
+                                      self.total_infected, self.total_dead,
+                                      self.total_vaccinated)
+            should_continue = self._simulation_should_continue()
             # TODO: for every iteration of this loop, call self.time_step() to compute another
             # round of this simulation.
-            _create_population
         print(f'The simulation has ended after {time_step_counter} turns.')
 
     def time_step(self):
-        ''' This method should contain all the logic for computing one time step
+        ''' This method should containˀ all the logic for computing one time step
         in the simulation.
 
         This includes:
