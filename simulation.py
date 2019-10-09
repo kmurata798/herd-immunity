@@ -137,7 +137,7 @@ class Simulation(object):
         # TODO: Keep track of the number of time steps that have passed.
         # HINT: You may want to call the logger's log_time_step() method at the end of each time step.
         # TODO: Set this variable using a helper
-        time_step_counter = 0
+        time_step_count = 0
         should_continue = True
 
         while should_continue:
@@ -150,7 +150,7 @@ class Simulation(object):
             should_continue = self._simulation_should_continue()
             # TODO: for every iteration of this loop, call self.time_step() to compute another
             # round of this simulation.
-        print(f'The simulation has ended after {time_step_counter} turns.')
+        print(f'The simulation has ended after {time_step_count} turns.')
 
     def time_step(self):
         ''' This method should containˀ all the logic for computing one time step
@@ -217,7 +217,8 @@ class Simulation(object):
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
-        pass
+        
+
 
 
 if __name__ == "__main__":

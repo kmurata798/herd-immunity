@@ -85,7 +85,7 @@ class Logger(object):
             else:
                 infection_status = str(person._id) + ' died from infection.'
 
-    def log_time_step(self, time_step_number):
+    def log_time_step(self, time_step_number, self.current_infected, self.additional_deaths, additional_vacc, total_infected, self.total_dead, self.total_vaccinated):
         ''' STRETCH CHALLENGE DETAILS:
 
         If you choose to extend this method, the format of the summary statistics logged
