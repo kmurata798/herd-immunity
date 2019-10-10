@@ -51,10 +51,13 @@ class Simulation(object):
         self.total_dead = 0  # Int
         self.population = self._create_population(
             self.initial_infected)  # List of Person objects
-        self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
-            virus_name, pop_size, vacc_percentage, initial_infected)
+        self.file_name = "log.txt"
         self.logger = Logger(self.file_name)
         self.newly_infected = []
+
+        self.logger.write_metadata(self.pop_size, self.vacc_percentage,
+                                   self.virus.name, self.virus.mortality_rate,
+                                   self.virus.repro_rate)
 
     def _create_population(self, initial_infected):
         '''This method will create the initial population.
@@ -166,6 +169,34 @@ class Simulation(object):
         # TODO: Finish this method.
         self.additional_deaths = 0
         self.additional_vacc = 0
+        infected_list = self.get_infected()
+
+        # Goes through each person in the population and interact with 100 people
+        for person in infected_list:
+            interaction_count = 0
+            while interaction_count < 100:
+                random_person = random.choice(self.population)
+                while random_person.is_alive == False:
+                    random_person = random.choice(self.population)
+                self.interaction(person, random_person)
+                interaction_count += 1
+                print(interaction_count)
+
+        # Check if infected people survive the infection
+        for person in infected_list:
+            survived = person.did_survive_infection()
+            if survived:
+                self.total_vaccinated += 1
+                self.additional_vacc += 1
+                self.logger.log_infection_survival(person, False)
+            else:
+                self.total_dead += 1
+                self.additional_deaths += 1
+                self.logger.log_infection_survival(person, True)
+
+        # Infect newly infected people
+        self._infect_newly_infected()
+        self.get_infected()
 
     def interaction(self, person, random_person):
         '''This method should be called any time two living people are selected for an
@@ -226,20 +257,20 @@ def test_create_population():
     virus = Virus("Test", 0.8, 0.2)
     sim = Simulation(100, 0.7, virus, 10)
 
-    inf_list = []
+    infected_list = []
     vacc_list = []
 
     print("People", len(sim.population))
     assert len(sim.population) == 100
 
     for person in sim.population:
-        if person.infection is not None:
-            inf_list.append(person)
+        if person.infection != None:
+            infected_list.append(person)
         elif person.is_vaccinated:
             vacc_list.append(person)
 
-    print("Infected", len(inf_list))
-    assert len(inf_list) == 10
+    print("Infected", len(infected_list))
+    assert len(infected_list) == 10
 
     print("Vaccinated", len(vacc_list))
     assert len(vacc_list) == 70
