@@ -33,7 +33,7 @@ class Logger(object):
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
         with open(self.file_name, mode='w') as new_file:
-            metadata = f'Population Size: {pop_size}\nVaccination Percentage: {vacc_percentage}\nVirus Name: {virus_name}\nMortality Rate: {mortality_rate}\nBasic Reproduction Number: {basic_repro_num}\n\n'
+            metadata = f'Population Size: {pop_size}\nVaccination Percentage: {vacc_percentage}\nVirus Name: {virus_name}\nMortality Rate: {mortality_rate}\nBasic Reproduction Number: {basic_repro_num}\n'
             new_file.write(metadata)
         new_file.close()
 
