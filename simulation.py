@@ -217,9 +217,34 @@ class Simulation(object):
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
-        
+        for person_id in self.newly_infected:
+            self.population[person_id].infection = self.virus
+            self.total_infected += 1
+        self.newly_infected.clear()
 
+def test_create_population():
+    virus = Virus("Test", 0.8, 0.2)
+    sim = Simulation(100, 0.7, virus, 10)
 
+    inf_list = []
+    vacc_list = []
+
+    print("People", len(sim.population))
+    assert len(sim.population) == 100
+
+    for person in sim.population:
+        if person.infection is not None:
+            inf_list.append(person)
+        elif person.is_vaccinated:
+            vacc_list.append(person)
+
+    print("Infected", len(inf_list))
+    assert len(inf_list) == 10
+
+    print("Vaccinated", len(vacc_list))
+    assert len(vacc_list) == 70
+
+    assert sim.total_vaccinated == len(vacc_list)
 
 if __name__ == "__main__":
     params = sys.argv[1:]
