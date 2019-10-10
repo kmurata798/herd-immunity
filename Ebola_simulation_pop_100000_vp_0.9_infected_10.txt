@@ -1,0 +1,5 @@
+Infections during this step: {additional_infected}
+Total infections: {total_infections}
+ Deaths during this step: {additional_deaths}
+Vaccinations during this step: {additional_vacc}
+Total Vaccinations: {total_vacc}
