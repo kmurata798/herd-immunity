@@ -1,5 +1,6 @@
 import io
 from person import Person
+from virus import Virus
 
 
 class Logger(object):
@@ -32,7 +33,7 @@ class Logger(object):
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
         with open(self.file_name, mode='w') as new_file:
-            metadata = f'Population Size: {pop_size} \t Vaccination Percentage: {vacc_percentage} \t Virus Name: {virus_name} \t Mortality Rate: {mortality_rate} \t Basic Reproduction Number: {basic_repro_num} \t \n'
+            metadata = f'Population Size: {pop_size}\nVaccination Percentage: {vacc_percentage}\nVirus Name: {virus_name}\nMortality Rate: {mortality_rate}\nBasic Reproduction Number: {basic_repro_num}\n\n'
             new_file.write(metadata)
         new_file.close()
 
@@ -82,11 +83,11 @@ class Logger(object):
                 infection_status = str(person._id) + \
                     ' survived infection.' + '\n'
             else:
-                infection_status = str(person._id) + ' died from infection.'
-            new_file.write(infection_status)
+                infection_status = str(person._id) + ' died from infection.' + '\n'
+            new_file.write(infection_status)    
             new_file.close()
 
-    def log_time_step(self, time_step_number, additional_infected, additional_deaths, additional_vacc, total_infected, total_dead, total_vaccinated):
+    def log_time_step(self, virus_name, time_step_number, additional_infected, additional_deaths, additional_vacc, total_infected, total_dead, total_vaccinated):
         ''' STRETCH CHALLENGE DETAILS:
 
         If you choose to extend this method, the format of the summary statistics logged
@@ -105,7 +106,7 @@ class Logger(object):
         # new one begins.
         # NOTE: Here is an opportunity for a stretch challenge!
         with open(self.file_name, mode='a') as new_file:
-            new_file.write(f'Infections during this step: {additional_infected}\nTotal infections: {total_infected}\n Deaths during this step: {additional_deaths}\nVaccinations during this step: {additional_vacc}\nTotal Vaccinations: {total_vaccinated}')
+            new_file.write(f'----------------------\nVIRUS: {virus_name}\nInfections during this step: {additional_infected}\nTotal infections: {total_infected}\nDeaths during this step: {additional_deaths}\nVaccinations during this step: {additional_vacc}\nTotal Vaccinations: {total_vaccinated}\n')
             time_step_status = str(f'Time step {time_step_number} ended -- Beginning '
             f'{time_step_number + 1}\n')
             new_file.write(time_step_status)

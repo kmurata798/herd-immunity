@@ -113,7 +113,7 @@ class Simulation(object):
                 bool: True for simulation should continue, False if it should end.
         '''
         # TODO: Complete this helper method.  Returns a Boolean.
-        if len(self.get_infected()) == 0 or self.vacc_percentage == 100:
+        if len(self.get_infected()) == 0:
             return False
         else:
             return True
@@ -145,7 +145,7 @@ class Simulation(object):
         while should_continue:
             time_step_count += 1
             self.time_step()
-            self.logger.log_time_step(time_step_count, self.current_infected,
+            self.logger.log_time_step(self.virus.name, time_step_count, self.current_infected,
                                       self.additional_deaths, self.additional_vacc,
                                       self.total_infected, self.total_dead,
                                       self.total_vaccinated)
@@ -185,7 +185,7 @@ class Simulation(object):
         # Check if infected people survive the infection
         for person in infected_list:
             survived = person.did_survive_infection()
-            if survived:
+            if survived == True:
                 self.total_vaccinated += 1
                 self.additional_vacc += 1
                 self.logger.log_infection_survival(person, False)
@@ -218,10 +218,9 @@ class Simulation(object):
 
         else:
             infected_chance = random.random()
-            if (infected_chance < person.infection.repro_rate
-             and self.newly_infected.append(random_person._id) == 0):
-              self.newly_infected.append(random_person._id)
-              self.logger.log_interaction(person, random_person, False, False, True)
+            if (infected_chance < person.infection.repro_rate):
+                self.newly_infected.append(random_person._id)
+                self.logger.log_interaction(person, random_person, False, False, True)
             else:
                 self.logger.log_interaction(person, random_person, False, False, False)
 
@@ -248,8 +247,8 @@ class Simulation(object):
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
-        for person_id in self.newly_infected:
-            self.population[person_id].infection = self.virus
+        for person in self.newly_infected:
+            self.population[person].infection = self.virus
             self.total_infected += 1
         self.newly_infected.clear()
 
@@ -295,3 +294,7 @@ if __name__ == "__main__":
     sim = Simulation(pop_size, vacc_percentage, virus, initial_infected)
 
     sim.run()
+    # python3 simulation.py Ebola 0.25 0.70 200 0.90 10
+    #                       name repro morta pop vac% infected
+
+    # python3 simulation.py YellowFever 0.03 0.07 200 0.90 10
