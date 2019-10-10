@@ -86,7 +86,6 @@ class Simulation(object):
                 self.total_vaccinated += 1
             else:
                 popu.append(Person(person_count, False))
-
         return popu
 
         # for count in range(self.initial_infected):
@@ -165,7 +164,8 @@ class Simulation(object):
                 increment interaction counter by 1.
             '''
         # TODO: Finish this method.
-        pass
+        self.additional_deaths = 0
+        self.additional_vacc = 0
 
     def interaction(self, person, random_person):
         '''This method should be called any time two living people are selected for an
@@ -217,6 +217,7 @@ class Simulation(object):
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
+<<<<<<< HEAD
         for person_id in self.newly_infected:
             self.population[person_id].infection = self.virus
             self.total_infected += 1
@@ -240,6 +241,9 @@ def test_create_population():
 
     print("Infected", len(inf_list))
     assert len(inf_list) == 10
+=======
+
+>>>>>>> 8c2de9624079803cb302972f1f61b8123942bb32
 
     print("Vaccinated", len(vacc_list))
     assert len(vacc_list) == 70
