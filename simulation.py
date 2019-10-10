@@ -217,7 +217,6 @@ class Simulation(object):
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
-<<<<<<< HEAD
         for person_id in self.newly_infected:
             self.population[person_id].infection = self.virus
             self.total_infected += 1
@@ -241,9 +240,6 @@ def test_create_population():
 
     print("Infected", len(inf_list))
     assert len(inf_list) == 10
-=======
-
->>>>>>> 8c2de9624079803cb302972f1f61b8123942bb32
 
     print("Vaccinated", len(vacc_list))
     assert len(vacc_list) == 70
