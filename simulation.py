@@ -180,6 +180,23 @@ class Simulation(object):
         assert person.is_alive == True
         assert random_person.is_alive == True
 
+        if random_person.is_vaccinated:
+            self.logger.log_interaction(person, random_person, True, False, False)
+        elif random_person.infection is not None:
+            self.logger.log_interaction(person, random_person, True, False, False)
+
+        else:
+            infected_chance = random.random()
+            if (infected_chance < person.infection.repro_rate
+             and self.newly_infected.append(random_person._id) == 0):
+              self.newly_infected.append(random_person._id)
+              self.logger.log_interaction(person, random_person, False, False, True)
+            else:
+                self.logger.log_interaction(person, random_person, False, False, False)
+
+
+
+            
         # TODO: Finish this method.
         #  The possible cases you'll need to cover are listed below:
         # random_person is vaccinated:
@@ -192,7 +209,7 @@ class Simulation(object):
         #     Simulation object's newly_infected array, so that their .infected
         #     attribute can be changed to True at the end of the time step.
         # TODO: Call slogger method during this method.
-        pass
+        
 
     def _infect_newly_infected(self):
         ''' This method should iterate through the list of ._id stored in self.newly_infected
