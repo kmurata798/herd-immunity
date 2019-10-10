@@ -106,7 +106,7 @@ class Logger(object):
         # NOTE: Here is an opportunity for a stretch challenge!
         with open(self.file_name, mode='a') as new_file:
             new_file.write(f'Infections during this step: {additional_infected}\nTotal infections: {total_infected}\n Deaths during this step: {additional_deaths}\nVaccinations during this step: {additional_vacc}\nTotal Vaccinations: {total_vaccinated}')
-            time_step_status = str('Time step ' +
-                                   time_step_number) + ' ended -- ' + 'Begin ' + str(time_step_number + 1) + '\n'
+            time_step_status = str(f'Time step {time_step_number} ended -- Beginning '
+            f'{time_step_number + 1}\n')
             new_file.write(time_step_status)
             new_file.close()
