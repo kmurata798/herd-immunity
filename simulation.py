@@ -15,7 +15,7 @@ class Simulation(object):
     infected people in a population are all variables that can be set when the program is run.
     '''
 
-    def __init__(self, pop_size, vacc_percentage, virus, initial_infected=1, initial_vaccinated=1):
+    def __init__(self, pop_size, vacc_percentage, virus, initial_infected=1):
         ''' Logger object logger records all events during the simulation.
         Population represents all Persons in the population.
         The next_person_id is the next available id for all created Persons,
@@ -212,21 +212,22 @@ class Simulation(object):
         assert random_person.is_alive == True
 
         if random_person.is_vaccinated:
-            self.logger.log_interaction(person, random_person, True, False, False)
+            self.logger.log_interaction(
+                person, random_person, True, False, False)
         elif random_person.infection is not None:
-            self.logger.log_interaction(person, random_person, True, False, False)
+            self.logger.log_interaction(
+                person, random_person, True, False, False)
 
         else:
             infected_chance = random.random()
             if (infected_chance < person.infection.repro_rate):
                 self.newly_infected.append(random_person._id)
-                self.logger.log_interaction(person, random_person, False, False, True)
+                self.logger.log_interaction(
+                    person, random_person, False, False, True)
             else:
-                self.logger.log_interaction(person, random_person, False, False, False)
+                self.logger.log_interaction(
+                    person, random_person, False, False, False)
 
-
-
-            
         # TODO: Finish this method.
         #  The possible cases you'll need to cover are listed below:
         # random_person is vaccinated:
@@ -239,7 +240,6 @@ class Simulation(object):
         #     Simulation object's newly_infected array, so that their .infected
         #     attribute can be changed to True at the end of the time step.
         # TODO: Call slogger method during this method.
-        
 
     def _infect_newly_infected(self):
         ''' This method should iterate through the list of ._id stored in self.newly_infected
@@ -252,14 +252,25 @@ class Simulation(object):
             self.total_infected += 1
         self.newly_infected.clear()
 
+
+def test_infect_newly_infected():
+    virus = Virus("test", 0.8, 0.2)
+    sim = Simulation(100, 0.5, virus, 10)
+
+    sim._infect_newly_infected()
+    assert sim.total_infected == 10
+
+
 def test_create_population():
     virus = Virus("Test", 0.8, 0.2)
-    sim = Simulation(100, 0.7, virus, 10)
+    #             name, repro, mortality rate
+    sim = Simulation(100, 0.5, virus, 10)
+    #           popsize, vacc%, virus, initial infected
 
     infected_list = []
     vacc_list = []
 
-    print("People", len(sim.population))
+    print("Total Population:", len(sim.population))
     assert len(sim.population) == 100
 
     for person in sim.population:
@@ -272,9 +283,34 @@ def test_create_population():
     assert len(infected_list) == 10
 
     print("Vaccinated", len(vacc_list))
-    assert len(vacc_list) == 70
+    assert len(vacc_list) == 50
 
     assert sim.total_vaccinated == len(vacc_list)
+
+
+def test_simulation_should_continue():
+    virus = Virus("test", 0.8, 0.2)
+    sim = Simulation(100, 0.5, virus, 10)
+    # assert (len(sim.get_infected()) == 0) == False
+    assert sim._simulation_should_continue() == True
+
+
+def test_constructor():
+    virus = Virus("test", 0.8, 0.2)
+    sim = Simulation(100, 0.5, virus, 10)
+
+    assert sim.pop_size == 100
+    assert sim.vacc_percentage == 0.5
+    assert sim.virus == virus
+    assert sim.initial_infected == 10
+# def test_run():
+#     virus = Virus("Test", 0.8, 0.2)
+#     #             name, repro, mortality rate
+#     sim = Simulation(100, 0.5, virus, 10)
+#     #           popsize, vacc%, virus, initial infected
+#     sim.run()
+#     assert print() == 'The simulation has ended after 2 turns.'
+
 
 if __name__ == "__main__":
     params = sys.argv[1:]

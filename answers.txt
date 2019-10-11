@@ -1,0 +1,19 @@
+1. What were the inputs you gave the simulation? (Population size, percent vaccinated, virus name, mortality rate,  reproductive rate)
+2. What percentage of the population became infected at some point before the virus burned out?
+3. What percentage of the population died from the virus?
+4. Out of all interactions sick individuals had during the entire simulation, how many total interactions did we see where a vaccination saved a person from potentially becoming infected?
+
+1) Population size: 200
+    % Vaccinated: 0.90  or  90%
+    Virus Name: YellowFever
+    Mortality rate: 0.07  or  7%
+    Reproductive rate: 0.03  or  3%
+
+2) 10 people became infected by YellowFever,
+    5% of the population became infected throughout the program's runtime.
+
+3) 10 people died from the YellowFever,
+    5% of the population died from the YellowFever.
+
+4) 180 people vaccinated out of 200 people,
+    90% of the population had been vaccinated, saving them from potentially becoming infected.

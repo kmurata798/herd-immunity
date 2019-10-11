@@ -3,7 +3,6 @@ Vaccination Percentage: 0.9
 Virus Name: YellowFever
 Mortality Rate: 0.07
 Basic Reproduction Number: 0.03
-
 Interaction Logs: 
 0 did not infect 163
 Interaction Logs: 

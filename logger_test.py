@@ -7,7 +7,6 @@ import io
 import sys
 import os.path
 
-
 def test_write_metadata():
     file_name = 'log.txt'
     logger = Logger(file_name)
@@ -41,4 +40,4 @@ def test_log_time_step():
     file_name = 'logs.txt'
     logger = Logger(file_name)
 
-    logger.log_time_step(2)
+    logger.log_time_step("flu", 2, 10, 2, 20, 5, 2, 30)
