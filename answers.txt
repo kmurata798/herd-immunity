@@ -3,6 +3,9 @@
 3. What percentage of the population died from the virus?
 4. Out of all interactions sick individuals had during the entire simulation, how many total interactions did we see where a vaccination saved a person from potentially becoming infected?
 
+ python3 simulation.py Ebola 0.25 0.70 200 0.90 10
+                       name repro morta pop vac% infected
+
 1) Population size: 200
     % Vaccinated: 0.90  or  90%
     Virus Name: YellowFever
