@@ -332,5 +332,3 @@ if __name__ == "__main__":
     sim.run()
     # python3 simulation.py Ebola 0.25 0.70 200 0.90 10
     #                       name repro morta pop vac% infected
-
-    # python3 simulation.py YellowFever 0.03 0.07 200 0.90 10
